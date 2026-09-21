@@ -29,12 +29,50 @@ To write a Python program to convert a given Infix expression to Postfix express
 
 ### PROGRAM
 
-```
+```python
+stack = [] 
+output = []
+
+# Include only used operators: '/', '-', '&', '(', ')'
+Operators = {'/', '-', '&', '(', ')'}
+
+# Set proper precedence (higher number = higher precedence)
+Priority = {'&': 1, '-': 2, '/': 2, '(': 0}  # Note: '/' and '-' same precedence
+
+def infixToPostfix(expression):
+    for char in expression:
+        if char not in Operators:
+            output.append(char)
+        
+        elif char == '(':
+            stack.append(char)
+            
+        elif char == ')':
+            while stack and stack[-1] != '(':
+                output.append(stack.pop())
+            stack.pop()  # Remove '(' from stack
+            
+        else:
+            while stack and Priority[char] <= Priority.get(stack[-1], 0):
+                output.append(stack.pop())
+            stack.append(char)
+        
+    while stack:
+        output.append(stack.pop())
+
+    return ''.join(output)
+    
+# Input
+expression = input()
+print("infix notation: ", expression)
+print("postfix notation: ", infixToPostfix(expression))
 
 ```
 
 ### OUTPUT
+<img width="742" height="170" alt="image" src="https://github.com/user-attachments/assets/f4235da6-87ea-4791-bc70-af6b18cc364a" />
+
 
 
 ### RESULT
-
+Thus the python program for convert a given Infix expression to Postfix expression by following the precedence and associative rules has been implemented and executed successfully.
